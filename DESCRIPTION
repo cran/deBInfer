@@ -1,12 +1,15 @@
 Package: deBInfer
 Type: Package
 Title: Bayesian Inference for Differential Equations
-Version: 0.4.1
-Date: 2016-09-13
+Version: 0.4.2
+Date: 2018-04-18
 Authors@R: c(
-    person("Philipp H", "Boersch-Supan", email = "pboesu@gmail.com", role = c("aut","cre")),
-    person("Leah R", "Johnson", email = "lrjohnson0@gmail.com", role = "aut"),
-    person("Sadie J", "Ryan", email = "datamonkey@gmail.com", role = "aut"))
+    person("Philipp H", "Boersch-Supan", email = "pboesu@gmail.com", role = c("aut","cre"), comment = c(ORCID = "0000-0001-6723-6833")),
+    person("Leah R", "Johnson", email = "lrjohnson0@gmail.com", role = "aut", comment = c(ORCID = "0000-0002-9922-579X")),
+    person("Sadie J", "Ryan", email = "datamonkey@gmail.com", role = "aut", comment = c(ORCID = "0000-0002-4308-6321"))
+    )
+BugReports: https://github.com/pboesu/debinfer/issues
+URL: https://github.com/pboesu/debinfer
 Description: A Bayesian framework for parameter inference in differential equations.
     This approach offers a rigorous methodology for parameter inference as well as
     modeling the link between unobservable model states and parameters, and
@@ -19,18 +22,18 @@ Description: A Bayesian framework for parameter inference in differential equati
     of model parameters and trajectories.
 License: GPL-3
 LazyData: TRUE
-RoxygenNote: 5.0.1
+RoxygenNote: 6.0.1
 Depends: R (>= 2.10), deSolve
 Imports: truncdist, coda, RColorBrewer, MASS, stats, mvtnorm, graphics,
         grDevices, plyr, PBSddesolve, methods
-Suggests: testthat, knitr, rmarkdown, devtools, R.rsp, microbenchmark,
-        beanplot
+Suggests: testthat, knitr, rmarkdown, devtools, R.rsp, beanplot
 VignetteBuilder: knitr, R.rsp
 NeedsCompilation: no
-Packaged: 2016-09-14 17:56:52 UTC; philipp
-Author: Philipp H Boersch-Supan [aut, cre],
-  Leah R Johnson [aut],
-  Sadie J Ryan [aut]
+Packaged: 2018-04-18 14:37:32 UTC; Philipp
+Author: Philipp H Boersch-Supan [aut, cre]
+    (<https://orcid.org/0000-0001-6723-6833>),
+  Leah R Johnson [aut] (<https://orcid.org/0000-0002-9922-579X>),
+  Sadie J Ryan [aut] (<https://orcid.org/0000-0002-4308-6321>)
 Maintainer: Philipp H Boersch-Supan <pboesu@gmail.com>
 Repository: CRAN
-Date/Publication: 2016-09-14 21:44:04
+Date/Publication: 2018-04-18 15:38:19 UTC

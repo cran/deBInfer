@@ -16,11 +16,11 @@ de_mcmc(N, data, de.model, obs.model, all.params, ref.params = NULL,
 
 \item{de.model}{a function defining a DE model, compliant with the solvers in deSolve or PBSddesolve}
 
-\item{obs.model}{a function defining an observation model}
+\item{obs.model}{a function defining an observation model. Must be a function with arguments 'data', 'sim.data', 'samp'.}
 
 \item{all.params}{debinfer_parlist containing all model, MCMC, and observation}
 
-\item{ref.params}{an optional named vector containing a set of reference parameters, e.g. the true paramaters underlying a simulated data set}
+\item{ref.params}{an optional named vector containing a set of reference parameters, e.g. the true parameters underlying a simulated data set}
 
 \item{ref.inits}{an optional named vector containing a set of reference initial values, e.g. the true initial values underlying a simulated data set}
 
@@ -49,4 +49,3 @@ a debinfer_result object containing input parameters, data and MCMC samples
 Bayesian inference for a deterministic DE model (with models
 solved via an DE solver) with an observation model.
 }
-

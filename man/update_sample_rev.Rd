@@ -4,14 +4,16 @@
 \alias{update_sample_rev}
 \title{update_sample_rev}
 \usage{
-update_sample_rev(samps, samp.p, data, sim, out, Tmax, sizestep, data.times, l,
-  solver, i, cnt, obs.model, pdfs, hyper, w.p, verbose.mcmc, verbose, is.de,
-  ...)
+update_sample_rev(samps, samp.p, cov.mats, data, sim, out, Tmax, sizestep,
+  data.times, l, solver, i, cnt, obs.model, pdfs, hyper, w.p, verbose.mcmc,
+  verbose, is.de, is.single, joint.blocks, ...)
 }
 \arguments{
 \item{samps}{row vector of samples from the previous mcmc iteration}
 
 \item{samp.p}{the parlist created by setup_debinfer}
+
+\item{cov.mats}{the covariance matrices}
 
 \item{data}{the observation}
 
@@ -47,9 +49,12 @@ update_sample_rev(samps, samp.p, data, sim, out, Tmax, sizestep, data.times, l,
 
 \item{is.de}{logical, parameter is an input for the solver}
 
+\item{is.single}{parameter is to be proposed individually}
+
+\item{joint.blocks}{names of joint blocks}
+
 \item{...}{further arguments to solver}
 }
 \description{
 This is the workhorse of the MCMC algorithm
 }
-

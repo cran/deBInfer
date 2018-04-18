@@ -24,34 +24,55 @@ is.debinfer_result <- function(x){
   else FALSE
 }
 
+#' is.debinfer_parlist
+#'
+#' Check debinfer_parlist class
+#'
+#' @param x an object
+#' @export
+is.debinfer_parlist <- function(x){
+  if (inherits(x, "debinfer_parlist")) TRUE
+  else FALSE
+}
+
 #' Get starting/fixed values of DE initial values
 #'
 #' Accessor function for initial values
 #'
-#' @param x a deBInfer_result object
+#' @param x a debinfer_result or debinfer_parlist object
 #' @return a named numeric vector
 #' @export
 deinits <- function(x){
   if (is.debinfer_result(x)){
-    is.init <- sapply(x$all.params, function(x) x$var.type)=="init"
-    inits <- sapply(x$all.params, function(x) x$value)[is.init]
+    is.init <- vapply(x$all.params, function(x) x$var.type, character(1))=="init"
+    inits <- vapply(x$all.params, function(x) x$value, numeric(1))[is.init]
     return(inits)
-  } else NULL
+  } else {
+    if (is.debinfer_parlist(x)){
+      is.init <- vapply(x, function(x) x$var.type, character(1))=="init"
+      inits <- vapply(x, function(x) x$value, numeric(1))[is.init]
+      return(inits)
+    } else NULL}
 }
 
 #' Get starting/fixed values of DE parameters
 #'
 #' Accessor function for parameters
 #'
-#' @param x a deBInfer_result object
+#' @param x a debinfer_result or debinfer_parlist object
 #' @return a named numeric vector
 #' @export
 depars <- function(x){
   if (is.debinfer_result(x)){
-    is.depar <- sapply(x$all.params, function(x) x$var.type)=="de"
-    depars <- sapply(x$all.params, function(x) x$value)[is.depar]
+    is.depar <- vapply(x$all.params, function(x) x$var.type, character(1))=="de"
+    depars <- vapply(x$all.params, function(x) x$value, numeric(1))[is.depar]
     return(depars)
-  } else NULL
+  } else {
+    if (is.debinfer_parlist(x)){
+      is.depar <- vapply(x, function(x) x$var.type, character(1))=="de"
+      depars <- vapply(x, function(x) x$value, numeric(1))[is.depar]
+      return(depars)
+    } else NULL}
 }
 
 

@@ -15,7 +15,7 @@
 #' @param ... further arguments to plot.default (the call that draws the scatter/contour plot)
 #' @import MASS
 #' @import RColorBrewer
-#' @importFrom graphics abline contour hist layout lines par plot plot.default points text title
+#' @importFrom graphics abline contour hist layout lines par plot plot.default points text title strwidth
 #' @import stats
 #' @export
 pairs.debinfer_result <- function(x, trend = FALSE, scatter = FALSE, burnin=NULL, medians=TRUE, ...){
@@ -46,7 +46,7 @@ pairs.debinfer_result <- function(x, trend = FALSE, scatter = FALSE, burnin=NULL
   for(i in seq_len(np-1))
     for(j in (i+1):np){
       plot.default(-1:1,-1:1, type = "n",xlab="",ylab="",xaxt="n",yaxt="n")
-      text(x=0,y=0,labels=paste(cors[i,j]),cex=2)
+      text(x=0,y=0,labels=paste(cors[i,j]),cex= 1 + 1.8/strwidth("0.00") * abs(cors[i,j]))
     }
 
   # Plot heatmaps, here I use kde2d function for density estimation
@@ -145,14 +145,15 @@ post_prior_densplot <- function(result, param="all", burnin=NULL, prior.col="red
 #'
 #' @param x a deBInfer_result object
 #' @param plot.type character, which type of plot. Options are "coda" for coda::plot.mcmc, "post_prior" for deBInfer::post_prior_densplot.
+#' @param burnin numeric, number of samples to discard before plotting
 #' @param ... further arguments to methods
 #' @seealso \code{\link{post_prior_densplot}}, \code{\link[coda]{plot.mcmc}}, \code{\link{pairs.debinfer_result}}
 #' @import coda
 #' @export
-plot.debinfer_result <- function(x, plot.type="coda", ...){
+plot.debinfer_result <- function(x, plot.type="coda", burnin = 1, ...){
   # store old par
   old.par <- par(no.readonly=TRUE)
-  if (plot.type=="coda") plot(x$samples, ...)
+  if (plot.type=="coda") plot(window(x$samples, burnin, nrow(x$samples)), ...)
   if (plot.type=="post_prior") post_prior_densplot(x, ...)
   # restore old par
   par(old.par)

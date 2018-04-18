@@ -15,7 +15,7 @@
 #' @param sizestep for solver
 #' @param method solver method
 #' @param verbose passed to deSolve::ode
-#' @param data.times numeric a vector of times at which the ODE is to be evaluated. Defaults to NULL. If value is supplied it takes precendence over any value supplied to \code{numsteps} or \code{sizesteps}.
+#' @param data.times numeric a vector of times at which the ODE is to be evaluated. Defaults to NULL. If value is supplied it takes precedence over any value supplied to \code{numsteps} or \code{sizesteps}.
 #' @param ... additional arguments to solver
 #'
 #'
@@ -24,7 +24,10 @@
 #' @export
 solve_de<-function(sim, params, inits, Tmax, numsteps=10000,
                     solver="ode", sizestep=NULL, verbose=FALSE, data.times=NULL, method = "lsoda", ...){
-
+    #TODO: recalculate inits from parameters if necessary
+    if( !(solver %in% c(1,2,3) || solver %in% c("ode","dde","dede") )){
+      stop(paste('invalid value [', solver, '] for argument "solver". Must be one of "ode","dde","dede". To set a specific solver algorithm use the "method" argument (see ?ode or ?dede).'))
+      }
     if(!is.null(data.times)){
       #this is fragile. really the data should be in a class that ensures proper times, no missing data etc. pp. Also this now assumes observations at identical times for all observed variables.
       times <- data.times #this shouldn't be done every time the solver is called. solver times should be set up at the start of the mcmc procedure and then passed in through times argument

@@ -4,12 +4,14 @@
 \alias{plot.debinfer_result}
 \title{Plot inference outputs}
 \usage{
-\method{plot}{debinfer_result}(x, plot.type = "coda", ...)
+\method{plot}{debinfer_result}(x, plot.type = "coda", burnin = 1, ...)
 }
 \arguments{
 \item{x}{a deBInfer_result object}
 
 \item{plot.type}{character, which type of plot. Options are "coda" for coda::plot.mcmc, "post_prior" for deBInfer::post_prior_densplot.}
+
+\item{burnin}{numeric, number of samples to discard before plotting}
 
 \item{...}{further arguments to methods}
 }
@@ -19,4 +21,3 @@ Plots the inference results from a debinfer_result object
 \seealso{
 \code{\link{post_prior_densplot}}, \code{\link[coda]{plot.mcmc}}, \code{\link{pairs.debinfer_result}}
 }
-

@@ -18,13 +18,13 @@ debinfer_par(name, var.type, fixed, value, joint = NULL, prior = NULL,
 
 \item{joint}{integer; number of block for joint proposal; NULL means the parameter is not to be jointly proposed}
 
-\item{prior}{character; name of the probability distribution for the prior on the parameter. must conform to standard R naming of d/r function pairs, i.e. beta ( foo = beta), binomial binom, Cauchy cauchy, chi-squared chisq, exponential exp, Fisher F f, gamma gamma, geometric geom, hypergeometric hyper, logistic logis, lognormal lnorm, negative binomial nbinom, normal norm, Poisson pois, Student t t, uniform unif, Weibull weibull, mvnorm}
+\item{prior}{character; name of the probability distribution for the prior on the parameter. Must conform to standard R naming of d/r function pairs, e.g. beta ( foo = beta), binomial binom, Cauchy cauchy, chi-squared chisq, exponential exp, Fisher F f, gamma gamma, geometric geom, hypergeometric hyper, logistic logis, lognormal lnorm, negative binomial nbinom, normal norm, Poisson pois, Student t t, uniform unif, Weibull weibull. Priors from the truncdist package are available by default. User priors can be provided but must be available in the environment from which de_mcmc is called.}
 
 \item{hypers}{list of numeric vectors, hyperparameters for the prior; mean only for mvnorm. Can include trunc for truncated pdfs from package truncdist.}
 
 \item{prop.var}{numeric; tuning parameters, that is the standard deviation of the proposal distribution for each parameter}
 
-\item{samp.type}{character; type of sampler: "rw" = Normal random walk, "ind" = independence, "rw-unif" = asymmetric uniform distribution}
+\item{samp.type}{character; type of sampler: "rw" = Normal random walk, "ind" = independence, "rw-unif" = asymmetric uniform distribution, "rw-ref" = reflecting random walk sampler on the bounds of the prior support (cf. Hoff 2009, Chapter 10.5.1; Yang and Rodriguez 2013)}
 }
 \value{
 returns an object of class debinfer_par to be fed to the mcmc setup function
@@ -33,4 +33,7 @@ returns an object of class debinfer_par to be fed to the mcmc setup function
 Creates an object containing all the necessary bits for a parameter i.e. initial values, prior distributions,
 hyper-parameters, tuning parameters, etc. to set up a debinfer analysis
 }
-
+\references{
+Hoff 2009, A First Course in Bayesian Statistical Methods, Springer
+            Yang and Rodriguez 2013, PNAS 110:19307-19312 \url{http://doi.org/10.1073/pnas.1311790110}
+}

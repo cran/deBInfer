@@ -18,21 +18,21 @@ knitr::opts_chunk$set(dev='png', dpi=150)
 ```
 
 #Preliminaries
-This vignette illustrates the steps needed to perform inference for an ODE model, the logistic growth model. A detailed description of the rationale behind the Bayesian inference approach for differential equations can be found in the preprint describing the `deBInfer` package [@deBInfer]. The vignette also illustrates how to simulate noisy observations from an existing DE model. Conducting inference on a model with known parameters is good practice, when developing models for actual data, as it provides validation of the inference procedure.
+This vignette illustrates the steps needed to perform inference for an ODE model, the logistic growth model. A detailed description of the rationale behind the Bayesian inference approach for differential equations can be found in the paper describing the `deBInfer` package [@deBInfer]. The vignette also illustrates how to simulate noisy observations from an existing DE model. Conducting inference on a model with known parameters is good practice, when developing models for actual data, as it provides validation of the inference procedure.
 
-This examples assumes that `deBInfer` is installed and loaded. If this is not the case it needs to be installed from github, which requires the devtools package [@devtools].
+This example assumes that `deBInfer` is installed and loaded. If this is not the case it needs to be installed from CRAN:
 ```{r install1, eval=FALSE}
-install.packages("devtools")
-```
-```{r install1b}
-#Load the devtools package.
-library(devtools)
+install.packages("deBInfer")
 ```
 
-Then deBInfer can be installed from github.
-```{r install2, eval=FALSE, results='hide', message=FALSE, warning=FALSE}
-install_github("pboesu/debinfer")
+Development versions of `deBInfer` are available on github, and can be installed using the devtools package [@devtools].
+```{r install2, eval=FALSE}
+if (require("devtools")){
+  #install deBInfer from github
+  devtools::install_github("pboesu/debinfer")
+}
 ```
+
 ```{r loadlib, message=FALSE}
 library(deBInfer)
 ```
