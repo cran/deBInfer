@@ -1,19 +1,19 @@
-## ----opts, echo=FALSE, results='hide'------------------------------------
+## ----opts, echo=FALSE, results='hide'-----------------------------------------
 knitr::opts_chunk$set(dev="png", dpi=150)
 
-## ----install1, eval=FALSE------------------------------------------------
+## ----install1, eval=FALSE-----------------------------------------------------
 #  install.packages("deBInfer")
 
-## ----install2, eval=FALSE------------------------------------------------
+## ----install2, eval=FALSE-----------------------------------------------------
 #  if (require("devtools")){
 #    #install deBInfer from github
 #    devtools::install_github("pboesu/debinfer")
 #  }
 
-## ----loadlib, message=FALSE----------------------------------------------
+## ----loadlib, message=FALSE---------------------------------------------------
 library(deBInfer)
 
-## ----dde-def-------------------------------------------------------------
+## ----dde-def------------------------------------------------------------------
 #dede version
 CSZ.dede<-function(t,y,p){
 
@@ -49,7 +49,7 @@ CSZ.dede<-function(t,y,p){
     list(c(dy1,dy2,dy3))
     }
 
-## ----data----------------------------------------------------------------
+## ----data---------------------------------------------------------------------
 #load chytrid data
 data(chytrid)
 #have a look at the variables
@@ -57,7 +57,7 @@ head(chytrid)
 #plot the data
 plot(chytrid, xlab = "Time (days)", ylab = "Zoospores x 10e4", xlim = c(0,10))
 
-## ----obs-model-----------------------------------------------------------
+## ----obs-model----------------------------------------------------------------
 # observation model
 chytrid_obs_model <- function(data, sim.data, samp) {
   
@@ -72,7 +72,7 @@ chytrid_obs_model <- function(data, sim.data, samp) {
   return(llik)
 }
 
-## ----vars----------------------------------------------------------------
+## ----vars---------------------------------------------------------------------
 sr <- debinfer_par(name = "sr", var.type = "de", fixed = FALSE,
                    value = 2, prior = "gamma", hypers = list(shape = 5, rate = 1),
                    prop.var = c(3,4), samp.type = "rw-unif")
@@ -103,30 +103,30 @@ C <- debinfer_par(name = "C", var.type = "init", fixed = TRUE, value = 120)
 S <- debinfer_par(name = "S", var.type = "init", fixed = TRUE, value = 0)
 Z <- debinfer_par(name = "Z", var.type = "init", fixed = TRUE, value = 0)
 
-## ----mcmc-setup----------------------------------------------------------
+## ----mcmc-setup---------------------------------------------------------------
 # ----setup---------------------------------------------------------------
 mcmc.pars <- setup_debinfer(sr, fs, ds, muz, eta, Tmin, C, S, Z)
 
-## ----de_mcmc, results='hide', message=FALSE------------------------------
+## ----de_mcmc, results='hide', message=FALSE-----------------------------------
 # do inference with deBInfer
 # MCMC iterations
-iter <- 500
+iter <- 300
 # inference call
 dede_rev <- de_mcmc(N = iter, data = chytrid, de.model = CSZ.dede,
                     obs.model = chytrid_obs_model, all.params = mcmc.pars,
                     Tmax = max(chytrid$time), data.times = c(0,chytrid$time), cnt = 50,
                     plot = FALSE, sizestep = 0.1, solver = "dede", verbose.mcmc = FALSE)
 
-## ----message=FALSE, warning=FALSE,fig.width = 8, fig.height = 8----------
+## ----message=FALSE, warning=FALSE,fig.width = 8, fig.height = 8---------------
 par(mfrow = c(3,4))
 plot(dede_rev, ask = FALSE, auto.layout = FALSE)
 
-## ---- fig.width = 8, fig.height = 8--------------------------------------
+## ---- fig.width = 8, fig.height = 8-------------------------------------------
 burnin <- 100
 pairs(dede_rev, burnin = burnin, scatter = TRUE, trend = TRUE)
 post_prior_densplot(dede_rev, burnin = burnin)
 
-## ------------------------------------------------------------------------
+## -----------------------------------------------------------------------------
 par(mfrow = c(2,3), mgp = c(2.2, 0.8, 0))
 #define a fancy y axis label
 ylabel = expression(paste(Pr,"(", theta,"|", "Y", ")"))
@@ -151,11 +151,11 @@ post_prior_densplot(dede_rev, param = "Tmin",xlab = expression(theta),
                     ylab = ylabel, show.obs = FALSE, xlim = c(1.5,6.5), 
                     main = expression(paste("T",phantom()[{paste("min")}])))
 
-## ----post-sims-----------------------------------------------------------
+## ----post-sims----------------------------------------------------------------
 post_traj <- post_sim(dede_rev, n = 100, times = seq(0,10,by = 0.1), burnin = burnin, 
                       output = "all", prob = 0.95)
 
-## ----post-sims-plot, fig.width = 8, fig.height = 3-----------------------
+## ----post-sims-plot, fig.width = 8, fig.height = 3----------------------------
 #median and HDI
 par(mfrow = c(1,3))
 plot(post_traj, plot.type = "medianHDI", auto.layout = FALSE)
@@ -163,10 +163,10 @@ legend("topright", legend = c("posterior median", "95% HDI"), lty = 1,
        col = c("red","grey"), bty = "n")
 
 
-## ----post-sims-ensemble, fig.width = 8, fig.height = 6-------------------
+## ----post-sims-ensemble, fig.width = 8, fig.height = 6------------------------
 plot(post_traj, plot.type = "ensemble", col = "#FF000040")
 
-## ----custom-sim-fig------------------------------------------------------
+## ----custom-sim-fig-----------------------------------------------------------
 plot(chytrid, xlab = "Time (days)", ylab = "Zoospores x 10e4", xlim = c(0,10))
 
 for(i in seq_along(post_traj$sims)) {

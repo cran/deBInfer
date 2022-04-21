@@ -4,16 +4,18 @@
 \name{chytrid}
 \alias{chytrid}
 \title{Chytrid fungus data set}
-\format{A data.frame with 76 rows and two columns
+\format{
+A data.frame with 76 rows and two columns
 \describe{
   \item{time}{days since the start of the experiment}
   \item{count}{count of zoospores (x 1e4)}
-}}
+}
+}
 \description{
 Replicated spore counts of an experimental culture of the chytrid fungus \emph{Batrachochytrium dendrobatidis}.
 This dataset is a subset of the observations from the experimental study conducted by Voyles et al. (2012).
 }
 \references{
-Voyles et al. 2012, Ecol Evol 9:2241-2249 \url{http://dx.doi.org/10.1002\%2Fece3.334}
+Voyles et al. 2012, Ecol Evol 9:2241-2249 \doi{10.1002/ece3.334}
 }
 \keyword{data}

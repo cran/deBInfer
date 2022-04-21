@@ -1,8 +1,8 @@
 Package: deBInfer
 Type: Package
 Title: Bayesian Inference for Differential Equations
-Version: 0.4.2
-Date: 2018-04-18
+Version: 0.4.3
+Date: 2022-04-19
 Authors@R: c(
     person("Philipp H", "Boersch-Supan", email = "pboesu@gmail.com", role = c("aut","cre"), comment = c(ORCID = "0000-0001-6723-6833")),
     person("Leah R", "Johnson", email = "lrjohnson0@gmail.com", role = "aut", comment = c(ORCID = "0000-0002-9922-579X")),
@@ -22,18 +22,18 @@ Description: A Bayesian framework for parameter inference in differential equati
     of model parameters and trajectories.
 License: GPL-3
 LazyData: TRUE
-RoxygenNote: 6.0.1
-Depends: R (>= 2.10), deSolve
+RoxygenNote: 7.1.2
+Depends: R (>= 3.5.0), deSolve
 Imports: truncdist, coda, RColorBrewer, MASS, stats, mvtnorm, graphics,
         grDevices, plyr, PBSddesolve, methods
 Suggests: testthat, knitr, rmarkdown, devtools, R.rsp, beanplot
 VignetteBuilder: knitr, R.rsp
 NeedsCompilation: no
-Packaged: 2018-04-18 14:37:32 UTC; Philipp
+Packaged: 2022-04-20 16:53:41 UTC; phb
 Author: Philipp H Boersch-Supan [aut, cre]
     (<https://orcid.org/0000-0001-6723-6833>),
   Leah R Johnson [aut] (<https://orcid.org/0000-0002-9922-579X>),
   Sadie J Ryan [aut] (<https://orcid.org/0000-0002-4308-6321>)
 Maintainer: Philipp H Boersch-Supan <pboesu@gmail.com>
 Repository: CRAN
-Date/Publication: 2018-04-18 15:38:19 UTC
+Date/Publication: 2022-04-21 11:20:02 UTC

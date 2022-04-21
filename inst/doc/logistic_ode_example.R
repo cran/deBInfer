@@ -1,19 +1,19 @@
-## ----opts, echo=FALSE, results='hide'------------------------------------
+## ----opts, echo=FALSE, results='hide'-----------------------------------------
 knitr::opts_chunk$set(dev='png', dpi=150)
 
-## ----install1, eval=FALSE------------------------------------------------
+## ----install1, eval=FALSE-----------------------------------------------------
 #  install.packages("deBInfer")
 
-## ----install2, eval=FALSE------------------------------------------------
+## ----install2, eval=FALSE-----------------------------------------------------
 #  if (require("devtools")){
 #    #install deBInfer from github
 #    devtools::install_github("pboesu/debinfer")
 #  }
 
-## ----loadlib, message=FALSE----------------------------------------------
+## ----loadlib, message=FALSE---------------------------------------------------
 library(deBInfer)
 
-## ----ode-def, message=FALSE,warning=FALSE--------------------------------
+## ----ode-def, message=FALSE,warning=FALSE-------------------------------------
 library(deSolve)
 logistic_model <- function (time, y, parms) {
     with(as.list(c(y, parms)), {
@@ -22,22 +22,22 @@ logistic_model <- function (time, y, parms) {
       })
 }
 
-## ----pars-def------------------------------------------------------------
+## ----pars-def-----------------------------------------------------------------
 y <- c(N = 0.1)
 parms <- c(r = 0.1, K = 10)
 times <- seq(0, 120, 1)
 out <- ode(y, times, logistic_model, parms, method="lsoda")
 
-## ---- echo=FALSE---------------------------------------------------------
+## ---- echo=FALSE--------------------------------------------------------------
 plot(out)
 
-## ------------------------------------------------------------------------
+## -----------------------------------------------------------------------------
 set.seed(143)
 #force include the first time-point (t=0)
 N_obs <- as.data.frame(out[c(1,runif(35, 0, nrow(out))),]) 
 
 
-## ------------------------------------------------------------------------
+## -----------------------------------------------------------------------------
 # add lognormal noise
   parms["sdlog.N"] <- 0.05
   N_obs$N_noisy <- rlnorm(nrow(N_obs), log(N_obs$N),parms["sdlog.N"])
@@ -47,7 +47,7 @@ N_obs <- N_obs[order(N_obs$time),]
 plot(N_obs$time, N_obs$N, ylim=c(0, max(N_obs$N,N_obs$N_noisy)))
 points(N_obs$time, N_obs$N_noisy, col="red")
 
-## ----obs-model-----------------------------------------------------------
+## ----obs-model----------------------------------------------------------------
   # the observation model
   logistic_obs_model <- function(data, sim.data, samp){
 
@@ -57,7 +57,7 @@ points(N_obs$time, N_obs$N_noisy, col="red")
   }
 
 
-## ----pars, results="hide", message=FALSE---------------------------------
+## ----pars, results="hide", message=FALSE--------------------------------------
 library(deBInfer)
 r <- debinfer_par(name = "r", var.type = "de", fixed = FALSE,
                 value = 0.5, prior = "norm", hypers = list(mean = 0, sd = 1),
@@ -71,13 +71,13 @@ sdlog.N <- debinfer_par(name = "sdlog.N", var.type = "obs", fixed = FALSE,
                 value = 0.05, prior = "lnorm", hypers = list(meanlog = 0, sdlog = 1),
                 prop.var = c(3,4), samp.type = "rw-unif")
 
-## ----inits---------------------------------------------------------------
+## ----inits--------------------------------------------------------------------
 N <- debinfer_par(name = "N", var.type = "init", fixed = TRUE, value = 0.1)
 
-## ----setup---------------------------------------------------------------
+## ----setup--------------------------------------------------------------------
 mcmc.pars <- setup_debinfer(r, K, sdlog.N, N)
 
-## ----deBinfer, results="hide", message=FALSE-----------------------------
+## ----deBinfer, results="hide", message=FALSE----------------------------------
 # do inference with deBInfer
   # MCMC iterations
   iter <- 5000
@@ -88,14 +88,14 @@ mcmc.pars <- setup_debinfer(r, K, sdlog.N, N)
                           plot = FALSE, verbose.mcmc = FALSE, solver = "ode")
 
 
-## ----message=FALSE, warning=FALSE,fig.width = 8, fig.height = 8----------
+## ----message=FALSE, warning=FALSE,fig.width = 8, fig.height = 8---------------
 plot(mcmc_samples)
 
-## ------------------------------------------------------------------------
+## -----------------------------------------------------------------------------
 burnin <- 250
 pairs(mcmc_samples, burnin = burnin, scatter=TRUE, trend=TRUE)
 
-## ----post-dens, fig.height=5---------------------------------------------
+## ----post-dens, fig.height=5--------------------------------------------------
 par(mfrow = c(1,3))
 post_prior_densplot(mcmc_samples, burnin = burnin, param = "r")
 abline(v = 0.1, col = "red", lty = 2)
@@ -104,10 +104,10 @@ abline(v = 10, col = "red", lty = 2)
 post_prior_densplot(mcmc_samples, burnin = burnin, param = "sdlog.N")
 abline(v = 0.05, col = "red", lty = 2)
 
-## ----post-sims-----------------------------------------------------------
+## ----post-sims----------------------------------------------------------------
 post_traj <- post_sim(mcmc_samples, n=500, times=0:100, burnin=burnin, output = "all", prob = 0.95)
 
-## ----post-sims-plot------------------------------------------------------
+## ----post-sims-plot-----------------------------------------------------------
 #median and HDI
 plot(post_traj, plot.type = "medianHDI", lty = c(2,1), lwd = 3, col = c("red","grey20"),
   panel.first = lines(out, col = "darkblue", lwd = 2)
@@ -116,10 +116,10 @@ plot(post_traj, plot.type = "medianHDI", lty = c(2,1), lwd = 3, col = c("red","g
   lty = c(2,1,1), lwd = c(3,2,2), col = c("red","grey20","darkblue"),
   bty = "n")
 
-## ----post-sims-ensemble--------------------------------------------------
+## ----post-sims-ensemble-------------------------------------------------------
 plot(post_traj, plot.type = "ensemble", col = "#FF000040")
 
-## ----epsilon-sims, eval=FALSE--------------------------------------------
+## ----epsilon-sims, eval=FALSE-------------------------------------------------
 #  #reformulate the observation model such that epsilon is an observation parameter
 #  logistic_obs_model_eps <- function(data, sim.data, samp){
 #  
@@ -135,7 +135,7 @@ plot(post_traj, plot.type = "ensemble", col = "#FF000040")
 #  #set up MCMC parameters
 #  mcmc.pars <- setup_debinfer(r, K, sdlog.N, epsilon, N)
 
-## ----epsilon-sims-ctd, eval=FALSE----------------------------------------
+## ----epsilon-sims-ctd, eval=FALSE---------------------------------------------
 #  # define a range of epsilon values
 #  eps_range <- c(1e-6, 1e-5, 1e-4, 1e-3, 1e-2, 1e-1)
 #  

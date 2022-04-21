@@ -35,12 +35,12 @@ de_mcmc <- function(N, data, de.model, obs.model, all.params, ref.params=NULL, r
   #check models
   if(!is.function(obs.model)) stop("obs.model must be a function")
   if(!identical(formalArgs(obs.model), c("data", "sim.data", "samp" ))) stop("obs.model must be a function with arguments 'data', 'sim.data', 'samp'")
-  if(!(is.function(de.model) || is.character(de.model))) stop("de.model must be a function or function name (character)")
+  if(!(is.function(de.model) | is.character(de.model))) stop("de.model must be a function or function name (character)")
   if(!inherits(all.params, "debinfer_parlist")) stop("all.params must be of class debinfer_parlist")
 
   #identify cov matrices
-  is.par <- vapply(all.params, class, character(1)) == "debinfer_par"
-  is.cov <- vapply(all.params, class, character(1)) == "debinfer_cov"
+  is.par <- vapply(all.params, inherits, logical(1), what = 'debinfer_par')
+  is.cov <- vapply(all.params, inherits, logical(1), what = 'debinfer_cov')
   #subset into parameters and covariance matrices
   if (any(is.cov)){
     cov.matrices <- all.params[is.cov]
@@ -96,7 +96,7 @@ de_mcmc <- function(N, data, de.model, obs.model, all.params, ref.params=NULL, r
   ## posterior prob of the reference parameters, which can be passed in
   ## through ref.params
 
-  if(!is.null(ref.params) && !is.null(ref.inits)){
+  if(!is.null(ref.params) & !is.null(ref.inits)){
     sim.ref<-solve_de(sim = de.model, params = ref.params, inits = ref.inits, Tmax = Tmax, solver=solver, sizestep = sizestep, data.times = data.times, ...)
     prob.ref<-log_post_params(samp = ref.params, data = data, sim.data = sim.ref, w.p = w.p, obs.model = obs.model, pdfs = pdfs, hyper = hyper)
     message(paste("(unnormalized) posterior probability of the reference parameters= ",
@@ -271,7 +271,7 @@ update_sample_rev<-function(samps, samp.p, cov.mats, data, sim, out, Tmax, sizes
         #ww<-samp.p[[k]]$name
       if (k %in% singles) jj <- k else jj <- dimnames(cov.mats[[k]]$sigma)[[1]] ##TIDY UP
       for (j in jj){
-        if (samp.p[[j]]$var.type== "de" || samp.p[[j]]$var.type == "obs")  p.new[j]<-s.new[j]<-q$b[j]
+        if (samp.p[[j]]$var.type== "de" | samp.p[[j]]$var.type == "obs")  p.new[j]<-s.new[j]<-q$b[j]
         if (samp.p[[j]]$var.type== "init") i.new[j]<-s.new[j]<-q$b[j]
       }
       #}
@@ -298,7 +298,7 @@ update_sample_rev<-function(samps, samp.p, cov.mats, data, sim, out, Tmax, sizes
           s.new["lpost"] <- -Inf
           }
 
-      if(is.finite(s.new["lpost"]) && is.finite(s["lpost"])){
+      if(is.finite(s.new["lpost"]) & is.finite(s["lpost"])){
         A<-exp( s.new["lpost"] + q$lbak - s["lpost"] - q$lfwd )
       } else {
         A<-0
@@ -310,7 +310,7 @@ update_sample_rev<-function(samps, samp.p, cov.mats, data, sim, out, Tmax, sizes
     }
 
       ## print some output so we can follow the progress
-      if(verbose.mcmc && i%%cnt==0  ){
+      if(verbose.mcmc & i%%cnt==0  ){
         message(paste("proposing " , samp.p[[k]]$name, ": prob.old = ",
                     signif(s["lpost"], digits=5),
                     "; prob.new = ", signif(s.new["lpost"], digits=5), "; A = ",
@@ -377,7 +377,7 @@ propose_single_rev<-function(samps, s.p)
    sd<-sqrt(var)
    b.new <- rnorm(1, b, sd=sd)
    names(b.new) <- names(b)
-   while(b.new > u.bound || b.new < l.bound){
+   while(b.new > u.bound | b.new < l.bound){
      if(b.new > u.bound) b.new <- 2*u.bound - b.new; #print(b.new)
      if(b.new < l.bound) b.new <- 2*l.bound - b.new; #print(b.new)
    }
