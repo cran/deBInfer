@@ -1,8 +1,8 @@
 Package: deBInfer
 Type: Package
 Title: Bayesian Inference for Differential Equations
-Version: 0.4.3
-Date: 2022-04-19
+Version: 0.4.4
+Date: 2022-11-14
 Authors@R: c(
     person("Philipp H", "Boersch-Supan", email = "pboesu@gmail.com", role = c("aut","cre"), comment = c(ORCID = "0000-0001-6723-6833")),
     person("Leah R", "Johnson", email = "lrjohnson0@gmail.com", role = "aut", comment = c(ORCID = "0000-0002-9922-579X")),
@@ -29,11 +29,11 @@ Imports: truncdist, coda, RColorBrewer, MASS, stats, mvtnorm, graphics,
 Suggests: testthat, knitr, rmarkdown, devtools, R.rsp, beanplot
 VignetteBuilder: knitr, R.rsp
 NeedsCompilation: no
-Packaged: 2022-04-20 16:53:41 UTC; phb
+Packaged: 2022-11-16 17:09:32 UTC; philipp.boerschsupan
 Author: Philipp H Boersch-Supan [aut, cre]
     (<https://orcid.org/0000-0001-6723-6833>),
   Leah R Johnson [aut] (<https://orcid.org/0000-0002-9922-579X>),
   Sadie J Ryan [aut] (<https://orcid.org/0000-0002-4308-6321>)
 Maintainer: Philipp H Boersch-Supan <pboesu@gmail.com>
 Repository: CRAN
-Date/Publication: 2022-04-21 11:20:02 UTC
+Date/Publication: 2022-11-17 12:00:24 UTC

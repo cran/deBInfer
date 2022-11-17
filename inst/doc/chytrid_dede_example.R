@@ -1,5 +1,6 @@
 ## ----opts, echo=FALSE, results='hide'-----------------------------------------
 knitr::opts_chunk$set(dev="png", dpi=150)
+set.seed(123)
 
 ## ----install1, eval=FALSE-----------------------------------------------------
 #  install.packages("deBInfer")
